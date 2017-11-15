@@ -5,9 +5,10 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour {
 
     public const float SPEEDTORISE = .5f;
-    public const float MAXSPEED = 10f;
-    public const float ACCELERATIONMAGNITUDE = 4000f;
-    public const float FRICTIONALCONSTANT = .5f;
+    public const float MAXWALKSPEED = 5f;
+    public const float MAXSPRINTSPEED = 10f;
+    public const float ACCELERATIONMAGNITUDE = 85f;
+    public const float FRICTIONALCONSTANT = .9f;
 
     private Rigidbody rigidbody;
     public string horizontalCtrl = "LeftJoystickHorizontal";
@@ -70,14 +71,16 @@ public class PlayerMovement : MonoBehaviour {
         float v = Input.GetAxis(verticalCtrl);      // Get left analoge stick's vertical input
         if (h != 0f || v != 0f)
         {
-            Vector3 forceToAdd = (new Vector3(h, 0, -v)).normalized * ACCELERATIONMAGNITUDE;
-            if (((forceToAdd/rigidbody.mass * Time.fixedDeltaTime) + rigidbody.velocity).sqrMagnitude >= Mathf.Pow(2, MAXSPEED))
+            Vector3 leftAnalogInput = new Vector3(h, 0, -v);
+            float magnitude = leftAnalogInput.sqrMagnitude;
+            Vector3 forceToAdd = Vector3.ClampMagnitude(leftAnalogInput, 1) * ACCELERATIONMAGNITUDE;
+            if (magnitude <= .5625f)
             {
-                rigidbody.velocity = ((rigidbody.velocity + (forceToAdd * Time.fixedDeltaTime)).normalized * MAXSPEED);
+                rigidbody.velocity = Vector3.ClampMagnitude((rigidbody.velocity + (forceToAdd * Time.fixedDeltaTime)), MAXWALKSPEED);
             }
             else
             {
-                rigidbody.AddForce(forceToAdd * Time.fixedDeltaTime);
+                rigidbody.velocity = Vector3.ClampMagnitude((rigidbody.velocity + (forceToAdd * Time.fixedDeltaTime)), MAXSPRINTSPEED);
             }
             Debug.Log("Velocity: " + rigidbody.velocity.magnitude);
             //Debug.Log("Horizontal: " + h + ", Vertical: " + v);

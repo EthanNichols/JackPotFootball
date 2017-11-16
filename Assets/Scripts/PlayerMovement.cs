@@ -38,6 +38,51 @@ public class PlayerMovement : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+        Hover();
+        
+    }
+
+    private void FixedUpdate()
+    {
+
+        UpdateMovement();
+
+    }
+
+    /// <summary>
+    /// Call in FixedUpdate() to update the transform's velocity in the x and z axes
+    /// </summary>
+    private void UpdateMovement()
+    {
+        // Player controlled movement
+        float h = Input.GetAxis(horizontalCtrl);    // Get left analoge stick's horizontal input
+        float v = Input.GetAxis(verticalCtrl);      // Get left analoge stick's vertical input
+        if (h != 0f || v != 0f)
+        {
+            Vector3 leftAnalogInput = new Vector3(h, 0, -v);
+            float magnitude = leftAnalogInput.sqrMagnitude;
+            Vector3 forceToAdd = Vector3.ClampMagnitude(leftAnalogInput, 1) * ACCELERATIONMAGNITUDE;
+            if (magnitude <= .5625f)
+            {
+                rigidbody.velocity = Vector3.ClampMagnitude((rigidbody.velocity + (forceToAdd * Time.fixedDeltaTime)), MAXWALKSPEED);
+            }
+            else
+            {
+                rigidbody.velocity = Vector3.ClampMagnitude((rigidbody.velocity + (forceToAdd * Time.fixedDeltaTime)), MAXSPRINTSPEED);
+            }
+        }
+        else
+        {
+            rigidbody.velocity = new Vector3(rigidbody.velocity.x * FRICTIONALCONSTANT, rigidbody.velocity.y, rigidbody.velocity.z * FRICTIONALCONSTANT);
+        }
+    }
+
+    /// <summary>
+    /// Call in Update(). Raycasts down and turns on gravity when it doesn't hit anything. Will move to the distanceToGround
+    /// if raycasts down and hits something.
+    /// </summary>
+    private void Hover()
+    {
         // Tell distance from ground to either turn on gravity or rise/fall to preferred height
         var hit = new RaycastHit();
         if (Physics.Raycast(transform.position, -Vector3.up, out hit))
@@ -62,38 +107,5 @@ public class PlayerMovement : MonoBehaviour {
             // Turn Gravity on
             rigidbody.useGravity = true;
         }
-    }
-
-    private void FixedUpdate()
-    {
-        // Player controlled movement
-        float h = Input.GetAxis(horizontalCtrl);    // Get left analoge stick's horizontal input
-        float v = Input.GetAxis(verticalCtrl);      // Get left analoge stick's vertical input
-        if (h != 0f || v != 0f)
-        {
-            Vector3 leftAnalogInput = new Vector3(h, 0, -v);
-            float magnitude = leftAnalogInput.sqrMagnitude;
-            Vector3 forceToAdd = Vector3.ClampMagnitude(leftAnalogInput, 1) * ACCELERATIONMAGNITUDE;
-            if (magnitude <= .5625f)
-            {
-                rigidbody.velocity = Vector3.ClampMagnitude((rigidbody.velocity + (forceToAdd * Time.fixedDeltaTime)), MAXWALKSPEED);
-            }
-            else
-            {
-                rigidbody.velocity = Vector3.ClampMagnitude((rigidbody.velocity + (forceToAdd * Time.fixedDeltaTime)), MAXSPRINTSPEED);
-            }
-            Debug.Log("Velocity: " + rigidbody.velocity.magnitude);
-            //Debug.Log("Horizontal: " + h + ", Vertical: " + v);
-        }
-        else
-        {
-            rigidbody.velocity = new Vector3(rigidbody.velocity.x * FRICTIONALCONSTANT, rigidbody.velocity.y, rigidbody.velocity.z * FRICTIONALCONSTANT);
-        }
-        
-
-
-        //Debug.Log("Horizontal: " + h + ", Vertical: " + v);
-        if (Input.GetButtonDown(aButton))
-            Debug.Log("A pressed");
     }
 }

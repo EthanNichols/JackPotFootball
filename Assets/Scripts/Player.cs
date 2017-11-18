@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class Player : MonoBehaviour {
 
+    //The amount of time before the player respawns
     public float respawnTime;
 
+    //Game manager, and whether the player is dead or not
     private GameObject manager;
     private bool dead;
 

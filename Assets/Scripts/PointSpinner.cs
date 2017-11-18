@@ -5,52 +5,46 @@ using UnityEngine.UI;
 
 public class PointSpinner : MonoBehaviour {
 
-    public int panelAmount;
-    public GameObject panel;
+    //The max points that can be earned, and the current value
+    public int maxValue;
+    private int value;
 
-    private List<GameObject> panels = new List<GameObject>();
+    //The amount of time the spiiner runs for
+    public float spinTimer;
 
-    private float rotateAmount;
+    //The text display for the point value
+    private GameObject display;
 
 	// Use this for initialization
 	void Start () {
-        CreateSpinner();
-        rotateAmount = 0;
+        //Set the text display object
+        display = transform.GetChild(0).gameObject;
 	}
 
     // Update is called once per frame
     void Update()
     {
-        transform.rotation = Quaternion.Euler(new Vector3(rotateAmount, 0, 0));
-        rotateAmount += Time.deltaTime * 50;
-
-        foreach(GameObject getPanel in panels)
+        //Test if the spinner is still spinning
+        if (spinTimer > 0)
         {
-            if (getPanel.transform.position.z > 50)
-            {
-                getPanel.SetActive(true);
-            } else
-            {
-                getPanel.SetActive(false);
-            }
+            //Get a random value for the ball
+            int setValue = Random.Range(1, maxValue);
+
+            //Set the value of the spinner, and display the value
+            display.GetComponent<Text>().text = setValue.ToString();
+            value = setValue;
+
+            //Reduve the amount of time the spinner has left
+            spinTimer -= Time.deltaTime;
         }
-
-
-        transform.GetChild(0).transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
     }
 
-    private void CreateSpinner()
+    /// <summary>
+    /// Return the value of the spinner for the ball
+    /// </summary>
+    /// <returns>The value of the spinner for the ball</returns>
+    public int GetValue()
     {
-        for (int i = 0; i < panelAmount; i++)
-        {
-            float angle = ((360f / (float)panelAmount) * i) * Mathf.Deg2Rad;
-
-            GameObject newPanel = Instantiate(panel, Vector3.zero, Quaternion.identity, transform);
-
-            newPanel.transform.localPosition = new Vector3(0, Mathf.Sin(angle), -Mathf.Cos(angle)) * (11f * (panelAmount / 4f));
-            newPanel.transform.rotation = Quaternion.Euler(new Vector3(angle * Mathf.Rad2Deg, 0, 0));
-
-            panels.Add(newPanel);
-        }
+        return value;
     }
 }

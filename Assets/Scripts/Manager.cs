@@ -25,6 +25,8 @@ public class Manager : MonoBehaviour {
 
     private void SetupArena()
     {
+        transform.position = new Vector3(0, -.5f, 0);
+
         //Set the size of the map, as long as it isn't 0
         if (mapSize != 0)
         {
@@ -34,5 +36,10 @@ public class Manager : MonoBehaviour {
             mapSize = transform.localScale.x;
             transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, transform.localScale.x);
         }
+    }
+
+    private void CreateLaunchers()
+    {
+
     }
 }

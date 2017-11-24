@@ -4,30 +4,41 @@ using UnityEngine;
 
 public class Ball : MonoBehaviour {
 
-    //The direction and speed of the ball
-    public Vector3 direction;
-    public int speed;
-
     //Game manager object
+    private bool inBounds;
     private GameObject manager;
 
     // Use this for initialization
     void Start () {
 
-        //Normalize the direction and find the game manager
-        direction = direction.normalized;
+        //Find the game manager
         manager = GameObject.FindGameObjectWithTag("Manager");
+
+        CalcInBound();
     }
 	
 	// Update is called once per frame
 	void Update () {
-
-        //Move the object
-        transform.position += direction * Time.deltaTime * speed;
-
         //Keep the ball in the arena
-        KeepInBounds();
+        if (inBounds)
+        {
+            KeepInBounds();
+        } else
+        {
+            CalcInBound();
+        }
 	}
+
+    private void CalcInBound()
+    {
+        //Get the arena
+        Manager managerScript = manager.GetComponent<Manager>();
+
+        if (Vector3.Magnitude(transform.position) < managerScript.mapSize * .5f)
+        {
+            inBounds = true;
+        }
+    }
 
     /// <summary>
     /// Keep the ball inside of the arena
@@ -51,8 +62,15 @@ public class Ball : MonoBehaviour {
             //Calculate the tangent for where the ball it on the arena
             Vector3 tanget = new Vector3(pos.z, 0, pos.x * -1).normalized;
 
+            Rigidbody body = GetComponent<Rigidbody>();
+            Vector3 direction = body.velocity.normalized;
+
             //Calculate and set the new direction for the ball to move
-            direction = (direction - (2 * (Vector3.Dot(direction, tanget) * tanget))).normalized * -1;
+
+            Vector3 newDir = (direction - (2 * (Vector3.Dot(direction, tanget) * tanget))).normalized * -body.velocity.magnitude;
+            newDir.y = direction.y;
+
+            body.velocity = newDir;
         }
     }
 }

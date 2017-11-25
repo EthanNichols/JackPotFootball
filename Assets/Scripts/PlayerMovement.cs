@@ -5,23 +5,24 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour {
 
     public const float SPEEDTORISE = .5f;
-    public const float MAXWALKSPEED = 5f;
-    public const float MAXSPRINTSPEED = 10f;
+    public const float MAXWALKSPEED = 15f;
+    public const float MAXSPRINTSPEED = 20f;
     public const float ACCELERATIONMAGNITUDE = 85f;
-    public const float FRICTIONALCONSTANT = .9f;
+    public const float FRICTIONALCONSTANT = .1f;
 
     private Rigidbody rigidbody;
     public string horizontalCtrl = "LeftJoystickHorizontal";
     public string verticalCtrl = "LeftJoystickVertical";
     public string aButton = "AButton";
 
-    public float heightToMaintain = 0f;
+    //public float heightToMaintain = 0f;
 
     // Use this for initialization
     void Start () {
         // Get rigidbody
         rigidbody = gameObject.GetComponent<Rigidbody>();
 
+        /*
         // Set the heightToMaintain
         var hit = new RaycastHit();
         if(heightToMaintain != 0f)
@@ -33,6 +34,7 @@ public class PlayerMovement : MonoBehaviour {
             // Tell distance from ground to maintain
             heightToMaintain = hit.distance + hit.transform.position.y;
         }
+        */
     }
 	
 	// Update is called once per frame
@@ -87,10 +89,10 @@ public class PlayerMovement : MonoBehaviour {
         var hit = new RaycastHit();
         if (Physics.Raycast(transform.position, -Vector3.up, out hit))
         {
-            rigidbody.useGravity = false;
+            //rigidbody.useGravity = false;
 
             var distanceToGround = hit.distance;
-
+            /*
             if (transform.position.y < heightToMaintain)
             {
                 // Check to see if you need to get up to the distance above the ground
@@ -101,6 +103,7 @@ public class PlayerMovement : MonoBehaviour {
                 // Check to see if you need to get down to the distance above the ground
                 rigidbody.velocity = new Vector3(rigidbody.velocity.x, -SPEEDTORISE, rigidbody.velocity.z);
             }
+            */
         }
         else
         {

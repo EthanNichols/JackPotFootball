@@ -33,8 +33,10 @@ public class Ball : MonoBehaviour {
     {
         //Get the arena
         Manager managerScript = manager.GetComponent<Manager>();
+        Vector3 localPos = transform.position;
+        localPos.y = 0;
 
-        if (Vector3.Magnitude(transform.position) < managerScript.mapSize * .5f)
+        if (Vector3.Magnitude(localPos) < managerScript.mapSize * .5f)
         {
             inBounds = true;
         }
@@ -56,7 +58,7 @@ public class Ball : MonoBehaviour {
         if (Vector3.Magnitude(pos) > managerScript.mapSize * .5f)
         {
             //Slightly adjust the position to keep the ball in bounds
-            pos = pos.normalized * ((managerScript.mapSize - .1f ) * .5f);
+            pos = pos.normalized * ((managerScript.mapSize - .2f ) * .5f);
             transform.position = new Vector3(pos.x, transform.position.y, pos.z);
 
             //Calculate the tangent for where the ball it on the arena

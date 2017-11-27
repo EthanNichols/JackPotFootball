@@ -17,7 +17,7 @@ public class ScoreManager : MonoBehaviour{
         {
             GameObject g = Instantiate(textPrefab);
 
-            g.transform.parent = this.gameObject.transform;
+            g.transform.SetParent(gameObject.transform);
 
             Text text = g.GetComponent<Text>();
             playerTexts[i - 1] = text;

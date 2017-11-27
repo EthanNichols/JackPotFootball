@@ -1,111 +1,72 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UIArrows : MonoBehaviour {
-    public int count;
-    public int buttonCount;
-    public int numOfButtons;
-    public int maxCount;
-    public bool up;
+    private const int MAXPLAYERS = 4;
+
     public int numberOfPlayers;
-    public Text players;
-    public Text map;
-    public int playerMax;
-    public bool mapOne;
-    public List<Button> buttons;
-    public ColorBlock colorblock;
-    // Use this for initialization
-    void Start ()
+    public int levelIndex;
+    public Text playerCountText;
+    public Text levelText;
+    public List<string> levels;
+
+    private void Start()
     {
-        buttonCount = 1;
         numberOfPlayers = 1;
-        mapOne = true;
-        playerMax = 4;
+        levelIndex = 0;
+        playerCountText.text = numberOfPlayers.ToString();
+
+        levels = new List<string>();
+        levels.Add("Game");
+        levels.Add("MovementScene");
+        levelText.text = levels[levelIndex];
     }
-	
-	// Update is called once per frame
-	void Update ()
+
+    public void IncreasePlayerCount()
     {
-        players.text = numberOfPlayers.ToString();
-        if (mapOne == true)
+        numberOfPlayers++;
+        if(numberOfPlayers > MAXPLAYERS)
         {
-            map.text = "Map One";
+            numberOfPlayers = 1;
         }
-        else if(mapOne == false)
-        {
-            map.text = "Map Two";
-        }
-  
-        if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            if (buttonCount >= numOfButtons)
-            {
-                buttonCount = 1;
-
-            }
-            else
-            {
-                buttonCount++;
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            if (buttonCount <= 0)
-            {
-
-                buttonCount = numOfButtons;
-            }
-
-            else
-            {
-               
-                buttonCount--;
-              
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            if(buttonCount == 2)
-            {
-                if (numberOfPlayers < playerMax)
-                {
-                    numberOfPlayers++;
-                }
-                else
-                {
-                    numberOfPlayers = 1;
-                }
-               
-            }
-            else if(buttonCount == 1)
-            {
-                if (numberOfPlayers > 1)
-                {
-                    numberOfPlayers--;
-                }
-                else
-                {
-                    numberOfPlayers = 4;
-                }
-                
-            }
-
-            else if(buttonCount == 3)
-            {
-                mapOne = !mapOne;
-            }
-            else if (buttonCount == 4)
-            {
-                mapOne = !mapOne;
-            }
-            else if (buttonCount == 5)
-            {
-
-            }
-
-        }
+        playerCountText.text = numberOfPlayers.ToString();
     }
-   
+
+    public void DecreasePlayerCount()
+    {
+        numberOfPlayers--;
+        if(numberOfPlayers < 1)
+        {
+            numberOfPlayers = MAXPLAYERS;
+        }
+        playerCountText.text = numberOfPlayers.ToString();
+    }
+
+    public void IncreaseSceneIndex()
+    {
+        levelIndex++;
+        if (levelIndex >= levels.Count)
+        {
+            levelIndex = 0;
+        }
+        levelText.text = levels[levelIndex];
+    }
+
+    public void DecreaseSceneIndex()
+    {
+        levelIndex--;
+        if (levelIndex < 0)
+        {
+            levelIndex = levels.Count - 1;
+        }
+        levelText.text = levelText.text = levels[levelIndex];
+    }
+
+    public void StartGamePressed()
+    {
+        SceneManager.LoadScene(levels[levelIndex]);
+    }
 }

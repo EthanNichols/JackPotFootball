@@ -5,11 +5,9 @@ using UnityEngine;
 public class Launcher : MonoBehaviour {
 
     public GameObject projectile;
-    public float desired_angle;
 
+    private float desired_angle;
     private Vector3 desiredLoc = Vector3.zero;
-    private bool allowedLaunch = true;
-
     private GameObject manager;
 
     // Use this for initialization
@@ -19,23 +17,17 @@ public class Launcher : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (allowedLaunch)
-        {
-            desired_angle = Random.Range(10, 80);
-            Launch(projectile, desired_angle);
-        }
     }
 
-    private void Launch(GameObject whatToLaunch, float angle)
+    public void Launch()
     {
-        allowedLaunch = false;
-
+        desired_angle = Random.Range(10f, 80f);
         float rotation = Random.Range(0, 360) * Mathf.Deg2Rad;
         float distance = Random.Range(0, manager.GetComponent<Manager>().mapSize *.5f);
 
         desiredLoc = new Vector3(Mathf.Cos(rotation) * distance, 0, Mathf.Sin(rotation) * distance);//pick the possible locations based on the picked launcher
 
-        GameObject newProjectile = Instantiate(whatToLaunch, gameObject.transform.position, Quaternion.identity);
+        GameObject newProjectile = Instantiate(projectile, gameObject.transform.position, Quaternion.identity);
 
         newProjectile.GetComponent<Rigidbody>().velocity = CalculateVelocity();
     }

@@ -4,45 +4,50 @@ using UnityEngine;
 
 public class Launcher : MonoBehaviour {
 
+    //The ball that will be shot
     public GameObject projectile;
-    public float desired_angle;
 
+    //The angle the ball is shot, and the location the ball is going to
+    private float desired_angle;
     private Vector3 desiredLoc = Vector3.zero;
-    private bool allowedLaunch = true;
 
     private GameObject manager;
 
     // Use this for initialization
     void Start () {
+        //Find and set the manager
         manager = GameObject.FindGameObjectWithTag("Manager");
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        if (allowedLaunch)
-        {
-            desired_angle = Random.Range(10, 80);
-            Launch(projectile, desired_angle);
-        }
     }
 
-    private void Launch(GameObject whatToLaunch, float angle)
+    public void Launch(int value)
     {
-        allowedLaunch = false;
+        //Set a random value for the angle the ball is shot
+        desired_angle = Random.Range(10f, 80f);
 
+        //Determine an angle and distance in a circle
         float rotation = Random.Range(0, 360) * Mathf.Deg2Rad;
         float distance = Random.Range(0, manager.GetComponent<Manager>().mapSize *.5f);
 
+        //Set the desired location for the ball
         desiredLoc = new Vector3(Mathf.Cos(rotation) * distance, 0, Mathf.Sin(rotation) * distance);//pick the possible locations based on the picked launcher
 
-        GameObject newProjectile = Instantiate(whatToLaunch, gameObject.transform.position, Quaternion.identity);
+        //Shoot the ball from the launcher
+        GameObject newProjectile = Instantiate(projectile, gameObject.transform.position, Quaternion.identity);
 
+        //Set the value of the ball, and set the velocity of the ball
+        newProjectile.GetComponent<Ball>().ballValue = value;
         newProjectile.GetComponent<Rigidbody>().velocity = CalculateVelocity();
     }
 
     private Vector3 CalculateVelocity()
     {
+        //Get the distance from the ball to the desired location
         Vector3 dir = desiredLoc - gameObject.transform.position;
+
         float height = dir.y;
         dir.y = 0;
         float distance = dir.magnitude;

@@ -22,6 +22,7 @@ public class UIArrows : MonoBehaviour {
         levels = new List<string>();
         levels.Add("Game");
         levels.Add("MovementScene");
+        levels.Add("SpawnPlayers");
         levelText.text = levels[levelIndex];
     }
 
@@ -67,6 +68,7 @@ public class UIArrows : MonoBehaviour {
 
     public void StartGamePressed()
     {
+        Settings.PlayerNum = numberOfPlayers;
         SceneManager.LoadScene(levels[levelIndex]);
     }
 }

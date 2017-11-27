@@ -6,6 +6,7 @@ public class Player : MonoBehaviour {
 
     //The amount of time before the player respawns
     public float respawnTime;
+    public float points;
 
     //Game manager, and whether the player is dead or not
     private GameObject manager;
@@ -13,16 +14,13 @@ public class Player : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        points = 0;
         Respawn();
         manager = GameObject.FindGameObjectWithTag("Manager");
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        if (!dead)
-        {
-            transform.position += Vector3.forward;
-        }
 
         FellOffStage();
 	}

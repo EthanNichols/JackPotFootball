@@ -38,7 +38,7 @@ public class Ball : MonoBehaviour {
         Vector3 localPos = transform.position;
         localPos.y = 0;
 
-        if (Vector3.Magnitude(localPos) < managerScript.mapSize * .5f)
+        if (Vector3.Magnitude(localPos) < (managerScript.mapSize - 1) * .5f)
         {
             inBounds = true;
         }

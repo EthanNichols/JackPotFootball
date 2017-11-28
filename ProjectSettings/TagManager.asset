@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Manager
   - Launcher
+  - Spinner
+  - Arena
+  - Ball
   layers:
   - Default
   - TransparentFX

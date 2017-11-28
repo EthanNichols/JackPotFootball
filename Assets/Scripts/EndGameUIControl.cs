@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class EndGameUIControl : MonoBehaviour {
 
-    public GameObject[] winnerStuff;
-    public RectTransform[] playerLocations;   
+    public GameObject[] winnerStuff;//the crown and the golden background
+    public RectTransform[] playerLocations;//used locations for finding out where the crown and yellow background should be at the time the winner shows up
     public bool gameHasEnded = false;
     public bool animationsUndergo = false;
 
-    private Queue<int> whoGoesWhen = new Queue<int>();
+    private Queue<int> whoGoesWhen = new Queue<int>();//Used for determining who shows on on screen forst to last
     private int switched_local_copy = -1;
     private bool allowed = true;
     private Animator animController;
@@ -17,24 +17,31 @@ public class EndGameUIControl : MonoBehaviour {
     // Use this for initialization
     private void Start () {
         animController = gameObject.GetComponent<Animator>();
+
+        //Hard coded player balls
+        //It is very important to add the scores in order, from player 1 to 4 as their index in the list are used 
+        //as identifiers for the program which playre is which
         playerBallCounts.Add(1);
         playerBallCounts.Add(3);
         playerBallCounts.Add(3);
         playerBallCounts.Add(5);
     }
 	private void Update () {
+        //For testing
         if (Input.GetKeyDown(KeyCode.G))
             gameHasEnded = true;
 
+        //do this once the game has ended, adjust the bool accordingly, since it's a public variable
         if (gameHasEnded)
         {
             animController.SetBool("game_ended", true);
-            OrderAnimation();
+            OrderAnimation();//this puts the player in a queue according to how many points they've earned
             gameHasEnded = !gameHasEnded;
             animationsUndergo = true;
-            animController.Play("Nothing");
+            animController.Play("Nothing");//initialize the animations
         }
         
+        //Start this once the animations are allowed to play
         if (animationsUndergo)
         {
             bool canTransition = false;
@@ -50,7 +57,7 @@ public class EndGameUIControl : MonoBehaviour {
                 canTransition = true;
                 switched_local_copy = localswiched;
             }
-            //make sure to create a bool that gets set to true once peek gives null
+            //Animation Controller
             if (canTransition)
             {
                 animController.SetInteger("player1Goes", -1);
@@ -77,9 +84,14 @@ public class EndGameUIControl : MonoBehaviour {
                         Debug.Log("smth is wrong with the queue" + outcome);
                         break;
                 }
+                //exception for the first player to show up
                 if (whoGoesWhen.Count == 1)
-                    winnerSpot = playerLocations[playerLocations.Length-1];
+                {
+                    int playerNum = whoGoesWhen.Peek()-1;
+                    winnerSpot = playerLocations[playerNum];
+                }                   
                 whoGoesWhen.Dequeue();
+                //Once everyone showed up it's time to crown the champion
                 if (whoGoesWhen.Count == 0)
                 {
                     animController.SetBool("everyoneAppeared", true);
@@ -87,10 +99,8 @@ public class EndGameUIControl : MonoBehaviour {
                     winnerStuff[0].GetComponent<RectTransform>().position = winnerSpot.position;
                     winnerStuff[1].GetComponent<RectTransform>().position = new Vector3(winnerSpot.position.x, winnerSpot.position.y + 500f, winnerSpot.position.z);
                 }
-            }
-            
+            }   
         }
-
 	}
     private void OrderAnimation()
     {      

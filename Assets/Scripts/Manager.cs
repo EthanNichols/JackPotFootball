@@ -23,6 +23,12 @@ public class Manager : MonoBehaviour
     //The amount of balls allowed at once
     public int maxBalls;
 
+    //Player Prefabs
+    public GameObject player1;
+    public GameObject player2;
+    public GameObject player3;
+    public GameObject player4;
+
     //List of players
     public List<GameObject> players;
     public GameObject scoreUI;
@@ -49,6 +55,29 @@ public class Manager : MonoBehaviour
         //Find all the launchers and the point spinner
         launchers = GameObject.FindGameObjectsWithTag("Launcher").ToList();
         spinner = GameObject.FindGameObjectWithTag("Spinner");
+
+        GameObject player;
+        //Spawn in players
+        switch (Settings.PlayerNum)
+        {
+            case 4:
+                player = Instantiate(player4, new Vector3(Random.Range(-10, 10), 1.5f, Random.Range(-10, 10)), Quaternion.identity) as GameObject;
+                players.Add(player);
+                goto case 3;
+            case 3:
+                player = Instantiate(player3, new Vector3(Random.Range(-10, 10), 1.5f, Random.Range(-10, 10)), Quaternion.identity) as GameObject;
+                players.Add(player);
+                goto case 2;
+            case 2:
+                player = Instantiate(player2, new Vector3(Random.Range(-10, 10), 1.5f, Random.Range(-10, 10)), Quaternion.identity) as GameObject;
+                players.Add(player);
+                goto default;
+            default:
+                player = Instantiate(player1, new Vector3(Random.Range(-10, 10), 1.5f, Random.Range(-10, 10)), Quaternion.identity) as GameObject;
+                players.Add(player);
+                break;
+        }
+       
     }
 
     // Update is called once per frame

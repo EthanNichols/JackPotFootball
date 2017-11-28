@@ -10,6 +10,8 @@ public class Manager : MonoBehaviour
     public float mapSize;
     public float deathDistance;
 
+    public float scoreArea;
+
     //The timer it takes for a cannon to shoot
     public float shotTimer;
     private float resetShotTimer;
@@ -20,10 +22,10 @@ public class Manager : MonoBehaviour
 
     //The amount of balls allowed at once
     public int maxBalls;
-    private int balls;
 
     //List of players
     public List<GameObject> players;
+    public GameObject scoreUI;
 
     //The arena, launchers, and point spinner
     private GameObject arena;
@@ -43,7 +45,6 @@ public class Manager : MonoBehaviour
         //Set the reset timers and the amount of balls to 0
         resetShotTimer = shotTimer;
         resetDelay = shotDelay;
-        balls = 0;
 
         //Find all the launchers and the point spinner
         launchers = GameObject.FindGameObjectsWithTag("Launcher").ToList();
@@ -55,6 +56,15 @@ public class Manager : MonoBehaviour
     {
         //Test if a new ball is shot
         NewBall();
+        UpdateScore();
+    }
+
+    private void UpdateScore()
+    {
+        for (int i=0; i<players.Count(); i++)
+        {
+            scoreUI.GetComponent<ScoreManager>().SetScore(i, (int)players[i].GetComponent<Player>().points);
+        }
     }
 
     private void NewBall()
@@ -62,7 +72,7 @@ public class Manager : MonoBehaviour
         //Test if a ball is going to be shot
         if (shotTimer > 0 &&
             shotDelay < 0 &&
-            balls < maxBalls)
+            GameObject.FindGameObjectsWithTag("Ball").Count() < maxBalls)
         {
             //Start the timer
             shotTimer -= Time.deltaTime;
@@ -102,7 +112,7 @@ public class Manager : MonoBehaviour
         }
 
         //Test if a ball can be shot
-        if (balls < maxBalls)
+        if (GameObject.FindGameObjectsWithTag("Ball").Count() < maxBalls)
         {
             //Reset the delay and shot timers
             shotTimer = resetShotTimer;
@@ -110,7 +120,6 @@ public class Manager : MonoBehaviour
 
             //Assign a random value for the ball, and increase the amount of balls shot
             int value = Random.Range(1, 10);
-            balls++;
 
             //Display the value of the ball
             //Shoot the ball from one of the launchers

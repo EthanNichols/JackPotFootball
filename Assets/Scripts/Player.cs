@@ -99,5 +99,24 @@ public class Player : MonoBehaviour {
             holdingBall = col.gameObject;
             col.gameObject.SetActive(false);
         }
+
+        if (col.gameObject.tag == "Player")
+        {
+            if (!GetComponent<PlayerMovement>().tackling) { return; }
+
+            col.gameObject.GetComponent<Rigidbody>().velocity = GetComponent<Rigidbody>().velocity * 3;
+            col.gameObject.GetComponent<PlayerMovement>().tackled = true;
+
+            if (col.gameObject.GetComponent<Player>().holdingBall)
+            {
+                GameObject ball = col.gameObject.GetComponent<Player>().holdingBall;
+                ball.transform.position = col.transform.position;
+                ball.transform.position += new Vector3(0, 2, 0);
+                ball.GetComponent<Rigidbody>().velocity = new Vector3(Random.Range(-1, 1), 5, Random.Range(-1, 1));
+                ball.SetActive(true);
+
+                col.gameObject.GetComponent<Player>().holdingBall = null;
+            }
+        }
     }
 }

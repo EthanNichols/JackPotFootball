@@ -12,24 +12,25 @@ public class EndGameUIControl : MonoBehaviour {
     private int switched_local_copy = -1;
     private bool allowed = true;
     private Animator animController;
-    private List<int> playerBallCounts = new List<int>();//Key is the player's number, while the value is his turn
+    public List<int> playerBallCounts = new List<int>();//Key is the player's number, while the value is his turn
     // Use this for initialization
     private void Start () {
         animController = gameObject.GetComponent<Animator>();
 
-        //Hard coded player balls
-        //It is very important to add the scores in order, from player 1 to 4 as their index in the list are used 
-        //as identifiers for the program which playre is which
         playerBallCounts.Add(1);
+<<<<<<< HEAD
         playerBallCounts.Add(7);
         playerBallCounts.Add(6);
         playerBallCounts.Add(5);
         
+=======
+        playerBallCounts.Add(3);
+        playerBallCounts.Add(5);
+        playerBallCounts.Add(3);
+
+>>>>>>> 9bebeeab9e786541713ae19b41c3aa1c2e9cb012
     }
-	private void Update () {
-        //For testing
-        if (Input.GetKeyDown(KeyCode.G))
-            gameHasEnded = true;
+    private void Update () {
 
         //do this once the game has ended, adjust the bool accordingly, since it's a public variable
         if (gameHasEnded)

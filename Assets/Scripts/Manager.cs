@@ -10,6 +10,9 @@ public class Manager : MonoBehaviour
     public float mapSize;
     public float deathDistance;
 
+    public float scoreArea;
+    public float pointGoal;
+
     //The timer it takes for a cannon to shoot
     public float shotTimer;
     private float resetShotTimer;
@@ -20,21 +23,26 @@ public class Manager : MonoBehaviour
 
     //The amount of balls allowed at once
     public int maxBalls;
-    private int balls;
 
     //Player Prefabs
+    /*
     public GameObject player1;
     public GameObject player2;
     public GameObject player3;
     public GameObject player4;
+    */
 
     //List of players
     public List<GameObject> players;
+    public GameObject scoreUI;
+    public GameObject results;
 
     //The arena, launchers, and point spinner
     private GameObject arena;
     private List<GameObject> launchers;
     private GameObject spinner;
+
+    private bool gameOver = false;
 
     // Use this for initialization
     void Start()
@@ -49,7 +57,6 @@ public class Manager : MonoBehaviour
         //Set the reset timers and the amount of balls to 0
         resetShotTimer = shotTimer;
         resetDelay = shotDelay;
-        balls = 0;
 
         //Find all the launchers and the point spinner
         launchers = GameObject.FindGameObjectsWithTag("Launcher").ToList();
@@ -57,6 +64,7 @@ public class Manager : MonoBehaviour
 
         GameObject player;
         //Spawn in players
+        /*
         switch (Settings.PlayerNum)
         {
             case 4:
@@ -76,7 +84,7 @@ public class Manager : MonoBehaviour
                 players.Add(player);
                 break;
         }
-       
+       */
     }
 
     // Update is called once per frame
@@ -84,6 +92,42 @@ public class Manager : MonoBehaviour
     {
         //Test if a new ball is shot
         NewBall();
+
+        if (!gameOver)
+        {
+            UpdateScore();
+        }
+    }
+
+    private void UpdateScore()
+    {
+        //Go through all of the players and set there score for the UI
+        for (int i = 0; i < players.Count(); i++)
+        {
+            scoreUI.GetComponent<ScoreManager>().SetScore(i, (int)players[i].GetComponent<Player>().points);
+
+            if (players[i].GetComponent<Player>().points > pointGoal)
+            {
+                List<int> scores = results.GetComponent<EndGameUIControl>().playerBallCounts;
+                EndGame();
+                return;
+            }
+        }
+    }
+
+    private void EndGame()
+    {
+        gameOver = true;
+        for (int i = 0; i < players.Count(); i++)
+        {
+            results.GetComponent<EndGameUIControl>().playerBallCounts.Add((int)players[i].GetComponent<Player>().points);
+        }
+
+        results.GetComponent<EndGameUIControl>().playerBallCounts.Add(1);
+        results.GetComponent<EndGameUIControl>().playerBallCounts.Add(5);
+        results.GetComponent<EndGameUIControl>().playerBallCounts.Add(3);
+
+        results.GetComponent<EndGameUIControl>().gameHasEnded = true;
     }
 
     private void NewBall()
@@ -91,7 +135,7 @@ public class Manager : MonoBehaviour
         //Test if a ball is going to be shot
         if (shotTimer > 0 &&
             shotDelay < 0 &&
-            balls < maxBalls)
+            GameObject.FindGameObjectsWithTag("Ball").Count() < maxBalls)
         {
             //Start the timer
             shotTimer -= Time.deltaTime;
@@ -131,7 +175,7 @@ public class Manager : MonoBehaviour
         }
 
         //Test if a ball can be shot
-        if (balls < maxBalls)
+        if (GameObject.FindGameObjectsWithTag("Ball").Count() < maxBalls)
         {
             //Reset the delay and shot timers
             shotTimer = resetShotTimer;
@@ -139,7 +183,6 @@ public class Manager : MonoBehaviour
 
             //Assign a random value for the ball, and increase the amount of balls shot
             int value = Random.Range(1, 10);
-            balls++;
 
             //Display the value of the ball
             //Shoot the ball from one of the launchers

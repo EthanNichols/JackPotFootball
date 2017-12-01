@@ -25,9 +25,10 @@ GameObject:
   - component: {fileID: 114804538266123724}
   - component: {fileID: 54532214081252854}
   - component: {fileID: 65614624143468962}
+  - component: {fileID: 114159458882699120}
   m_Layer: 0
   m_Name: Player3
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -39,7 +40,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1571990830464248}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.36, y: 6.79, z: 0}
+  m_LocalPosition: {x: -6.746609, y: 0.99999994, z: 19.381516}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -54,6 +55,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -69,6 +71,7 @@ MeshRenderer:
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -94,7 +97,7 @@ Rigidbody:
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
@@ -123,6 +126,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &114159458882699120
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1571990830464248}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b46b3e4d79b6455468857c9a26ecc070, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  respawnTime: 5
+  points: 0
 --- !u!114 &114804538266123724
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -134,7 +150,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d1b478644ccc854d8ec1019490f2cea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tackling: 0
   horizontalCtrl: LeftJoystickHorizontal_P3
   verticalCtrl: LeftJoystickVertical_P3
   aButton: AButton_P1
-  heightToMaintain: 0

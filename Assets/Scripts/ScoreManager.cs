@@ -29,10 +29,10 @@ public class ScoreManager : MonoBehaviour{
     /// <summary>
     /// Public method to be called by other scripts to update the score of a given player
     /// </summary>
-    public void UpdateScore(int player, int points)
+    public void  SetScore(int player, int points)
     {
-        playerScores[player - 1] += points;
-        playerTexts[player - 1].text = TextString(player, playerScores[player - 1]);
+        playerScores[player] = points;
+        playerTexts[player].text = TextString(player, playerScores[player]);
     }
 
     /// <summary>

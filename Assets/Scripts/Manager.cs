@@ -11,6 +11,7 @@ public class Manager : MonoBehaviour
     public float deathDistance;
 
     public float scoreArea;
+    public float pointGoal;
 
     //The timer it takes for a cannon to shoot
     public float shotTimer;
@@ -24,19 +25,24 @@ public class Manager : MonoBehaviour
     public int maxBalls;
 
     //Player Prefabs
+    /*
     public GameObject player1;
     public GameObject player2;
     public GameObject player3;
     public GameObject player4;
+    */
 
     //List of players
     public List<GameObject> players;
     public GameObject scoreUI;
+    public GameObject results;
 
     //The arena, launchers, and point spinner
     private GameObject arena;
     private List<GameObject> launchers;
     private GameObject spinner;
+
+    private bool gameOver = false;
 
     // Use this for initialization
     void Start()
@@ -58,6 +64,7 @@ public class Manager : MonoBehaviour
 
         GameObject player;
         //Spawn in players
+        /*
         switch (Settings.PlayerNum)
         {
             case 4:
@@ -77,7 +84,7 @@ public class Manager : MonoBehaviour
                 players.Add(player);
                 break;
         }
-       
+       */
     }
 
     // Update is called once per frame
@@ -85,7 +92,11 @@ public class Manager : MonoBehaviour
     {
         //Test if a new ball is shot
         NewBall();
-        UpdateScore();
+
+        if (!gameOver)
+        {
+            UpdateScore();
+        }
     }
 
     /// <summary>
@@ -93,10 +104,33 @@ public class Manager : MonoBehaviour
     /// </summary>
     private void UpdateScore()
     {
-        for (int i=0; i<players.Count(); i++)
+        //Go through all of the players and set there score for the UI
+        for (int i = 0; i < players.Count(); i++)
         {
             scoreUI.GetComponent<ScoreManager>().SetScore(i, (int)players[i].GetComponent<Player>().points);
+
+            if (players[i].GetComponent<Player>().points > pointGoal)
+            {
+                List<int> scores = results.GetComponent<EndGameUIControl>().playerBallCounts;
+                EndGame();
+                return;
+            }
         }
+    }
+
+    private void EndGame()
+    {
+        gameOver = true;
+        for (int i = 0; i < players.Count(); i++)
+        {
+            results.GetComponent<EndGameUIControl>().playerBallCounts.Add((int)players[i].GetComponent<Player>().points);
+        }
+
+        results.GetComponent<EndGameUIControl>().playerBallCounts.Add(1);
+        results.GetComponent<EndGameUIControl>().playerBallCounts.Add(5);
+        results.GetComponent<EndGameUIControl>().playerBallCounts.Add(3);
+
+        results.GetComponent<EndGameUIControl>().gameHasEnded = true;
     }
 
     /// <summary>

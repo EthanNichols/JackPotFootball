@@ -8,7 +8,10 @@ public class PlayerMovement : MonoBehaviour {
     public const float MAXWALKSPEED = 15f;
     public const float MAXSPRINTSPEED = 20f;
     public const float ACCELERATIONMAGNITUDE = 85f;
-    public const float FRICTIONALCONSTANT = .1f;
+    public const float FRICTIONALCONSTANT = .95f;
+
+    public bool tackling = false;
+    public bool tackled = false;
 
     private Rigidbody rigidbody;
     public string horizontalCtrl = "LeftJoystickHorizontal";
@@ -46,9 +49,51 @@ public class PlayerMovement : MonoBehaviour {
 
     private void FixedUpdate()
     {
+        if (tackled)
+        {
+            Recover();
+            return;
+        }
 
-        UpdateMovement();
+        if (!tackling)
+        {
+            UpdateMovement();
+        }
 
+        Tackle();
+        SetDirection();
+
+        //rigidbody.velocity = new Vector3(rigidbody.velocity.x * FRICTIONALCONSTANT, rigidbody.velocity.y, rigidbody.velocity.z * FRICTIONALCONSTANT);
+    }
+
+    private void Recover()
+    {
+        if(rigidbody.velocity == Vector3.zero)
+        {
+            tackled = false;
+        }
+
+        rigidbody.velocity *= .9f;
+    }
+
+    private void Tackle()
+    {
+        if (Input.GetButtonDown(aButton) &&
+            !tackling)
+        {
+            rigidbody.velocity *= 6f;
+            tackling = true;
+        }
+
+        if (tackling)
+        {
+            rigidbody.velocity *= .9f;
+
+            if (rigidbody.velocity.magnitude < MAXWALKSPEED)
+            {
+                tackling = false;
+            }
+        }
     }
 
     /// <summary>
@@ -61,9 +106,12 @@ public class PlayerMovement : MonoBehaviour {
         float v = Input.GetAxis(verticalCtrl);      // Get left analoge stick's vertical input
         if (h != 0f || v != 0f)
         {
-            Vector3 leftAnalogInput = new Vector3(h, 0, -v);
+            Vector3 leftAnalogInput = new Vector3(h, 0, -v).normalized;
             float magnitude = leftAnalogInput.sqrMagnitude;
-            Vector3 forceToAdd = Vector3.ClampMagnitude(leftAnalogInput, 1) * ACCELERATIONMAGNITUDE;
+            rigidbody.velocity = leftAnalogInput * MAXWALKSPEED;
+
+            //rigidbody.velocity = Vector3.ClampMagnitude((rigidbody.velocity + (forceToAdd * Time.fixedDeltaTime)), MAXWALKSPEED);
+            /*
             if (magnitude <= .5625f)
             {
                 rigidbody.velocity = Vector3.ClampMagnitude((rigidbody.velocity + (forceToAdd * Time.fixedDeltaTime)), MAXWALKSPEED);
@@ -72,10 +120,22 @@ public class PlayerMovement : MonoBehaviour {
             {
                 rigidbody.velocity = Vector3.ClampMagnitude((rigidbody.velocity + (forceToAdd * Time.fixedDeltaTime)), MAXSPRINTSPEED);
             }
-        }
-        else
+            */
+        } else
         {
-            rigidbody.velocity = new Vector3(rigidbody.velocity.x * FRICTIONALCONSTANT, rigidbody.velocity.y, rigidbody.velocity.z * FRICTIONALCONSTANT);
+            rigidbody.velocity = Vector3.zero;
+        }
+    }
+
+    private void SetDirection()
+    {
+        float h = Input.GetAxis(horizontalCtrl);    // Get left analoge stick's horizontal input
+        float v = Input.GetAxis(verticalCtrl);      // Get left analoge stick's vertical input
+        if (h != 0f || v != 0f)
+        {
+            Vector3 leftAnalogInput = new Vector3(h, 0, -v).normalized;
+
+            rigidbody.velocity = leftAnalogInput * rigidbody.velocity.magnitude;
         }
     }
 

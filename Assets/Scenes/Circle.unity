@@ -112,7 +112,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
-<<<<<<< HEAD
 --- !u!1 &15622186
 GameObject:
   m_ObjectHideFlags: 0
@@ -185,8 +184,6 @@ RectTransform:
   m_AnchoredPosition: {x: 422.59436, y: 513}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
-=======
->>>>>>> 9bebeeab9e786541713ae19b41c3aa1c2e9cb012
 --- !u!1 &34613510
 GameObject:
   m_ObjectHideFlags: 0
@@ -267,7 +264,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 58, y: 0, z: 0}
-<<<<<<< HEAD
 --- !u!1 &39275502
 GameObject:
   m_ObjectHideFlags: 0
@@ -616,8 +612,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-=======
->>>>>>> 9bebeeab9e786541713ae19b41c3aa1c2e9cb012
 --- !u!1 &523077531
 GameObject:
   m_ObjectHideFlags: 0

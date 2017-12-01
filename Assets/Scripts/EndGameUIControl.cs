@@ -18,17 +18,12 @@ public class EndGameUIControl : MonoBehaviour {
         animController = gameObject.GetComponent<Animator>();
 
         playerBallCounts.Add(1);
-<<<<<<< HEAD
+
         playerBallCounts.Add(7);
         playerBallCounts.Add(6);
         playerBallCounts.Add(5);
-        
-=======
-        playerBallCounts.Add(3);
-        playerBallCounts.Add(5);
-        playerBallCounts.Add(3);
 
->>>>>>> 9bebeeab9e786541713ae19b41c3aa1c2e9cb012
+
     }
     private void Update () {
 

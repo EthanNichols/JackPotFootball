@@ -31,6 +31,9 @@ public class Ball : MonoBehaviour {
         }
 	}
 
+    /// <summary>
+    /// checks to see if the ball is in bounds and changes the inBounds boolean to true if it is
+    /// </summary>
     private void CalcInBound()
     {
         //Get the arena

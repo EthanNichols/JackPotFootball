@@ -26,6 +26,9 @@ public class UIArrows : MonoBehaviour {
         levelText.text = levels[levelIndex];
     }
 
+    /// <summary>
+    /// increases the number of players
+    /// </summary>
     public void IncreasePlayerCount()
     {
         numberOfPlayers++;
@@ -36,6 +39,9 @@ public class UIArrows : MonoBehaviour {
         playerCountText.text = numberOfPlayers.ToString();
     }
 
+    /// <summary>
+    /// decreases the number of players
+    /// </summary>
     public void DecreasePlayerCount()
     {
         numberOfPlayers--;
@@ -46,6 +52,9 @@ public class UIArrows : MonoBehaviour {
         playerCountText.text = numberOfPlayers.ToString();
     }
 
+    /// <summary>
+    /// changes the selected scene by increasing the scene index
+    /// </summary>
     public void IncreaseSceneIndex()
     {
         levelIndex++;
@@ -56,6 +65,9 @@ public class UIArrows : MonoBehaviour {
         levelText.text = levels[levelIndex];
     }
 
+    /// <summary>
+    /// changes the selected scene by decreasing the scene index
+    /// </summary>
     public void DecreaseSceneIndex()
     {
         levelIndex--;
@@ -66,6 +78,9 @@ public class UIArrows : MonoBehaviour {
         levelText.text = levelText.text = levels[levelIndex];
     }
 
+    /// <summary>
+    /// starts the selected scene with the selected number of players
+    /// </summary>
     public void StartGamePressed()
     {
         Settings.PlayerNum = numberOfPlayers;

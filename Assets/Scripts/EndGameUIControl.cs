@@ -9,7 +9,7 @@ public class EndGameUIControl : MonoBehaviour {
     public bool gameHasEnded = false;
     public bool animationsUndergo = false;
 
-    private Queue<int> whoGoesWhen = new Queue<int>();//Used for determining who shows on on screen forst to last
+    private Queue<int> whoGoesWhen = new Queue<int>();//Used for determining who shows on screen first to last
     private int switched_local_copy = -1;
     private bool allowed = true;
     private Animator animController;
@@ -102,6 +102,10 @@ public class EndGameUIControl : MonoBehaviour {
             }   
         }
 	}
+
+    /// <summary>
+    /// sets the queue for who shows on screen first to last
+    /// </summary>
     private void OrderAnimation()
     {      
           int highestScore = -1;

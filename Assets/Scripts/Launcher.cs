@@ -43,6 +43,10 @@ public class Launcher : MonoBehaviour {
         newProjectile.GetComponent<Rigidbody>().velocity = CalculateVelocity();
     }
 
+    /// <summary>
+    /// calculates the velocity the launcher applies to the ball
+    /// </summary>
+    /// <returns> the normalized velocity vector </returns>
     private Vector3 CalculateVelocity()
     {
         //Get the distance from the ball to the desired location

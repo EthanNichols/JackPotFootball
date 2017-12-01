@@ -88,6 +88,9 @@ public class Manager : MonoBehaviour
         UpdateScore();
     }
 
+    /// <summary>
+    /// updates the score in the UI
+    /// </summary>
     private void UpdateScore()
     {
         for (int i=0; i<players.Count(); i++)
@@ -96,6 +99,9 @@ public class Manager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// handles the launching of a new ball
+    /// </summary>
     private void NewBall()
     {
         //Test if a ball is going to be shot
@@ -157,6 +163,9 @@ public class Manager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// sets the arena's position and size
+    /// </summary>
     private void SetupArena()
     {
         //Set the top of the arena to be at 0

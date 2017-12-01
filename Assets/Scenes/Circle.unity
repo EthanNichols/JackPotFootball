@@ -567,6 +567,52 @@ CanvasRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 351335632}
+--- !u!1 &410423532
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 1373048160131428, guid: ccbb5bd79be265c4f9284c10b17837cd,
+    type: 2}
+  m_PrefabInternal: {fileID: 948602473}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 410423534}
+  - component: {fileID: 410423533}
+  m_Layer: 0
+  m_Name: PauseMenuController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &410423533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 114663731578556354, guid: ccbb5bd79be265c4f9284c10b17837cd,
+    type: 2}
+  m_PrefabInternal: {fileID: 948602473}
+  m_GameObject: {fileID: 410423532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b82587cc232f6e42b1f590d656fb152, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvas: {fileID: 749673580}
+  eventsys: {fileID: 1632513606}
+  menu_member: {fileID: 1571184133}
+--- !u!4 &410423534
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 4328338824269070, guid: ccbb5bd79be265c4f9284c10b17837cd,
+    type: 2}
+  m_PrefabInternal: {fileID: 948602473}
+  m_GameObject: {fileID: 410423532}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 306.92157, y: 346.4232, z: 2.5810204}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &523077531
 GameObject:
   m_ObjectHideFlags: 0
@@ -1056,6 +1102,10 @@ Prefab:
     - target: {fileID: 1373048160131428, guid: ccbb5bd79be265c4f9284c10b17837cd, type: 2}
       propertyPath: m_Name
       value: PauseMenuController
+      objectReference: {fileID: 0}
+    - target: {fileID: 4328338824269070, guid: ccbb5bd79be265c4f9284c10b17837cd, type: 2}
+      propertyPath: m_LocalScale.x
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ccbb5bd79be265c4f9284c10b17837cd, type: 2}

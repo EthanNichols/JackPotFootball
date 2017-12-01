@@ -32,6 +32,9 @@ public class Player : MonoBehaviour {
         ScorePoints();
 	}
 
+    /// <summary>
+    /// handles the player scoring points
+    /// </summary>
     private void ScorePoints()
     {
         //Get the game manager
@@ -68,6 +71,9 @@ public class Player : MonoBehaviour {
         dead = false;
     }
 
+    /// <summary>
+    /// kills the player if the player exits the arena and respawns the player
+    /// </summary>
     private void FellOffStage()
     {
         //Get the arena
@@ -89,6 +95,10 @@ public class Player : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// checks to see if the player has collided with a ball and needs to pick it up
+    /// </summary>
+    /// <param name="col"></param>
     private void OnCollisionEnter(Collision col)
     {
         //Test if the player collided with a ball, and the player isn't holding a ball

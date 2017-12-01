@@ -5,6 +5,9 @@ using UnityEngine;
 public class UIControl : MonoBehaviour {
 
     private PauseMenu menuRef;
+    /// <summary>
+    /// resumes the game
+    /// </summary>
 	public void Resume()
     {
         menuRef = FindObjectOfType<PauseMenu>();

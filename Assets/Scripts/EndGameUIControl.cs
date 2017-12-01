@@ -8,7 +8,6 @@ public class EndGameUIControl : MonoBehaviour {
     public RectTransform[] playerLocations;//used locations for finding out where the crown and yellow background should be at the time the winner shows up
     public bool gameHasEnded = false;
     public bool animationsUndergo = false;
-
     private Queue<int> whoGoesWhen = new Queue<int>();//Used for determining who shows on on screen forst to last
     private int switched_local_copy = -1;
     private bool allowed = true;
@@ -22,9 +21,10 @@ public class EndGameUIControl : MonoBehaviour {
         //It is very important to add the scores in order, from player 1 to 4 as their index in the list are used 
         //as identifiers for the program which playre is which
         playerBallCounts.Add(1);
-        playerBallCounts.Add(3);
-        playerBallCounts.Add(3);
+        playerBallCounts.Add(7);
+        playerBallCounts.Add(6);
         playerBallCounts.Add(5);
+        
     }
 	private void Update () {
         //For testing
@@ -94,10 +94,10 @@ public class EndGameUIControl : MonoBehaviour {
                 //Once everyone showed up it's time to crown the champion
                 if (whoGoesWhen.Count == 0)
                 {
+                
                     animController.SetBool("everyoneAppeared", true);
                     animationsUndergo = false;
                     winnerStuff[0].GetComponent<RectTransform>().position = winnerSpot.position;
-                    winnerStuff[1].GetComponent<RectTransform>().position = new Vector3(winnerSpot.position.x, winnerSpot.position.y + 500f, winnerSpot.position.z);
                 }
             }   
         }
